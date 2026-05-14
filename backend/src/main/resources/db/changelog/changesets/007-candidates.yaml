@@ -1,0 +1,299 @@
+databaseChangeLog:
+  - changeSet:
+      id: 007-create-candidate-tables
+      author: hrms-team
+      changes:
+        - createTable:
+            tableName: candidates
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: first_name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(200)
+              - column:
+                  name: phone
+                  type: varchar(20)
+              - column:
+                  name: alternate_phone
+                  type: varchar(20)
+              - column:
+                  name: dob
+                  type: date
+              - column:
+                  name: gender
+                  type: varchar(20)
+              - column:
+                  name: current_company
+                  type: varchar(200)
+              - column:
+                  name: designation
+                  type: varchar(200)
+              - column:
+                  name: experience_years
+                  type: decimal(5,2)
+              - column:
+                  name: current_ctc
+                  type: decimal(15,2)
+              - column:
+                  name: expected_ctc
+                  type: decimal(15,2)
+              - column:
+                  name: notice_period_days
+                  type: int
+              - column:
+                  name: skills
+                  type: text
+              - column:
+                  name: linkedin_url
+                  type: varchar(500)
+              - column:
+                  name: github_url
+                  type: varchar(500)
+              - column:
+                  name: portfolio_url
+                  type: varchar(500)
+              - column:
+                  name: recruiter_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_candidate_recruiter
+                    references: users(id)
+              - column:
+                  name: source
+                  type: varchar(100)
+              - column:
+                  name: applied_date
+                  type: date
+              - column:
+                  name: workflow_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_candidate_workflow
+                    references: workflow_master(id)
+              - column:
+                  name: current_stage_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_candidate_stage
+                    references: workflow_stage(id)
+              - column:
+                  name: resume_url
+                  type: varchar(500)
+              - column:
+                  name: resume_version
+                  type: int
+                  defaultValueNumeric: 1
+              - column:
+                  name: is_active
+                  type: boolean
+                  defaultValueBoolean: true
+              - column:
+                  name: created_at
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: bigint
+              - column:
+                  name: updated_at
+                  type: datetime
+              - column:
+                  name: updated_by
+                  type: bigint
+
+        - createTable:
+            tableName: candidate_documents
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: candidate_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_candidate_doc_candidate
+                    references: candidates(id)
+              - column:
+                  name: document_type
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: file_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: file_url
+                  type: varchar(500)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: file_size
+                  type: bigint
+              - column:
+                  name: mime_type
+                  type: varchar(100)
+              - column:
+                  name: version
+                  type: int
+                  defaultValueNumeric: 1
+              - column:
+                  name: is_active
+                  type: boolean
+                  defaultValueBoolean: true
+              - column:
+                  name: created_at
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: bigint
+              - column:
+                  name: updated_at
+                  type: datetime
+              - column:
+                  name: updated_by
+                  type: bigint
+
+        - createTable:
+            tableName: candidate_comments
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: candidate_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_candidate_comment_candidate
+                    references: candidates(id)
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_candidate_comment_user
+                    references: users(id)
+              - column:
+                  name: comment
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_internal
+                  type: boolean
+                  defaultValueBoolean: true
+              - column:
+                  name: is_active
+                  type: boolean
+                  defaultValueBoolean: true
+              - column:
+                  name: created_at
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: bigint
+              - column:
+                  name: updated_at
+                  type: datetime
+              - column:
+                  name: updated_by
+                  type: bigint
+
+        - createTable:
+            tableName: candidate_transition_history
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: candidate_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_transition_history_candidate
+                    references: candidates(id)
+              - column:
+                  name: from_stage_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_transition_history_from
+                    references: workflow_stage(id)
+              - column:
+                  name: to_stage_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_transition_history_to
+                    references: workflow_stage(id)
+              - column:
+                  name: changed_by
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_transition_history_user
+                    references: users(id)
+              - column:
+                  name: remarks
+                  type: text
+              - column:
+                  name: changed_at
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: duration_in_previous_stage_hours
+                  type: bigint
+              - column:
+                  name: is_active
+                  type: boolean
+                  defaultValueBoolean: true
+              - column:
+                  name: created_at
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: bigint
+              - column:
+                  name: updated_at
+                  type: datetime
+              - column:
+                  name: updated_by
+                  type: bigint

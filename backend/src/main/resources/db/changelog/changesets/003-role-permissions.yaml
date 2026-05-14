@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: 003-create-role-permissions-table
+      author: hrms-team
+      changes:
+        - createTable:
+            tableName: role_permissions
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: role_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_role_permissions_role
+                    references: roles(id)
+              - column:
+                  name: permission_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_role_permissions_permission
+                    references: permissions(id)
+        - addUniqueConstraint:
+            tableName: role_permissions
+            columnNames: role_id, permission_id
+            constraintName: uk_role_permission
