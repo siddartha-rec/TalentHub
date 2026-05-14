@@ -4,50 +4,18 @@
 *.o
 *.obj
 *.out
-target/
-
 # Dependencies
-.m2/
+target/
 .gradle/
-node_modules/
-
 # Logs and temp files
 *.log
 *.tmp
 *.swp
-
 # Environment
 .env
 .env.local
 *.env.*
-
 # Editors
 .vscode/
 .idea/
-*.swp
-*.swo
-
-# OS specific
-.DS_Store
-Thumbs.db
-
-# Coverage
-coverage/
-htmlcov/
-.coverage
-
-# Database
-*.db
-*.sqlite
-*.sqlite3
-
-# Maven/Spring Boot
-target/
-!target/README.md
-*.jar
-*.war
-*.ear
-
-# Liquibase (database changelog tool)
-*.lock
 ```
