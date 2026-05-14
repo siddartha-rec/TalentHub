@@ -1,0 +1,134 @@
+databaseChangeLog:
+  - changeSet:
+      id: 008-create-interview-tables
+      author: hrms-team
+      changes:
+        - createTable:
+            tableName: interviews
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: candidate_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_interview_candidate
+                    references: candidates(id)
+              - column:
+                  name: interviewer_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_interview_interviewer
+                    references: users(id)
+              - column:
+                  name: interview_type
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: scheduled_at
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: duration_minutes
+                  type: int
+              - column:
+                  name: status
+                  type: varchar(20)
+                  defaultValue: 'SCHEDULED'
+              - column:
+                  name: meeting_link
+                  type: varchar(500)
+              - column:
+                  name: location
+                  type: varchar(255)
+              - column:
+                  name: remarks
+                  type: text
+              - column:
+                  name: is_active
+                  type: boolean
+                  defaultValueBoolean: true
+              - column:
+                  name: created_at
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: bigint
+              - column:
+                  name: updated_at
+                  type: datetime
+              - column:
+                  name: updated_by
+                  type: bigint
+
+        - createTable:
+            tableName: interview_feedback
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: interview_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    unique: true
+                    foreignKeyName: fk_feedback_interview
+                    references: interviews(id)
+              - column:
+                  name: technical_rating
+                  type: int
+              - column:
+                  name: communication_rating
+                  type: int
+              - column:
+                  name: problem_solving_rating
+                  type: int
+              - column:
+                  name: recommendation
+                  type: varchar(50)
+              - column:
+                  name: comments
+                  type: text
+              - column:
+                  name: strengths
+                  type: text
+              - column:
+                  name: weaknesses
+                  type: text
+              - column:
+                  name: additional_comments
+                  type: text
+              - column:
+                  name: is_active
+                  type: boolean
+                  defaultValueBoolean: true
+              - column:
+                  name: created_at
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: bigint
+              - column:
+                  name: updated_at
+                  type: datetime
+              - column:
+                  name: updated_by
+                  type: bigint
