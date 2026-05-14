@@ -96,6 +96,10 @@ public class Candidate extends BaseEntity {
     @Builder.Default
     private Integer resumeVersion = 1;
 
+    @Column(name = "is_merged", nullable = false)
+    @Builder.Default
+    private Boolean isMerged = false;
+
     @OneToMany(mappedBy = "candidate", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @Builder.Default
     private Set<CandidateDocument> documents = new HashSet<>();
